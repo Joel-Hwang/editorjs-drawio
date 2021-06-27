@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+		html, body, #wrapper {
+			height:100%;
+			width:100%;
+			margin:0;
+			padding:0;
+			border:0;
+		}
+		table#wrapper {
+			height:75%;
+		}
+		#wrapper td {
+			vertical-align:middle;
+			text-align:center;
+			cursor:pointer;
+		}
+		iframe {
+			border:0;
+			position:fixed;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			width:100%;
+			height:100%
+		}
+	</style>
+</head>
+
+<body>
+   
+
+    <div id="editorjs"></div>
+    <button id="save-button">Save</button>
+    <pre id="output"></pre>
+
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script type="text/javascript" src="diagram-editor.js"></script>
+    <script type="text/javascript" src="mxClient.js"></script>
+    <script type="text/javascript" src="pako.min.js"></script>
+    <script src="drawio.js"></script>
+    <script>
+        const editor = new EditorJS({
+            autofocus: true,
+            tools: {
+                image: DrawIO
+            }
+        });
+
+        const saveButton = document.getElementById('save-button');
+        const output = document.getElementById('output');
+
+        saveButton.addEventListener('click', () => {
+            editor.save().then(savedData => {
+                output.innerHTML = JSON.stringify(savedData, null, 4);
+            })
+        })
+    </script>
+
+</body>
+
+</html>
