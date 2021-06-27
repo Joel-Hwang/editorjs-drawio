@@ -8,10 +8,11 @@ class DrawIO{
             this.iframe = document.createElement('iframe');
 			this.iframe.setAttribute('frameborder', '0');
             this.iframe.style.zIndex = 9999;
+            window.addEventListener("message", this.postMessage.bind(this),false);
             this.iframe.setAttribute('src', this.drawUrl);
 			document.body.appendChild(this.iframe);
         });
-        window.addEventListener("message", this.postMessage);
+        
         
     }
 
@@ -34,7 +35,7 @@ class DrawIO{
                 break;
             case "init":
                 this.iframe.contentWindow.postMessage(
-                    JSON.stringify({ action: "load", autosave: 1, xml: '' }),
+                    JSON.stringify({ action: "load", autosave: 1, xml: this.gXml }),
                     "*"
                 );
                 this.iframe.contentWindow.postMessage(
@@ -44,7 +45,7 @@ class DrawIO{
                 break;
             case "autosave":
                 this.gXml = msg.xml;
-                xmlDoc = mxUtils.parseXml(xml);
+                xmlDoc = mxUtils.parseXml(msg.xml);
                 encryptedModel = xmlDoc.querySelector("diagram").textContent;
                 this.gXml = this.decode(encryptedModel);
                 break;
@@ -67,12 +68,12 @@ class DrawIO{
                 xmlDoc = mxUtils.parseXml(msg.xml);
                 encryptedModel = xmlDoc.querySelector("diagram").textContent;
                 let decryptedModel = this.decode(encryptedModel);
-                this.img.setAttribute('data-img',img);
-                this.img.setAttribute('data-model',decryptedModel);
-                this.close();
+                this.img.setAttribute('src',img);
+                this.img.setAttribute('mxgraph',decryptedModel);
                 break;
             case "exit":
-                this.close();
+                window.removeEventListener("message", this.postMessage);
+                document.body.removeChild(this.iframe);
                 break;
         }
     }
@@ -102,7 +103,8 @@ class DrawIO{
 
     save(blockContent) {
         return {
-            url: blockContent.value
+            image: blockContent.getAttribute('src'),
+            mxgraph:blockContent.getAttribute('mxgraph'),
         }
     }
 }
