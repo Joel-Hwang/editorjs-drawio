@@ -1,3 +1,5 @@
+import pako from 'pako';
+
 class DrawIO{
     constructor(){
         this.drawUrl =  'https://embed.diagrams.net/?embed=1&ui=min&spin=1&proto=json&configure=1';
@@ -44,7 +46,7 @@ class DrawIO{
                 break;
             case "autosave":
                 this.gXml = msg.xml;
-                xmlDoc = mxUtils.parseXml(xml);
+                xmlDoc = this.parseXml(xml);
                 encryptedModel = xmlDoc.querySelector("diagram").textContent;
                 this.gXml = this.decode(encryptedModel);
                 break;
@@ -64,7 +66,7 @@ class DrawIO{
                 let img = msg.data;
                 window.removeEventListener("message", this.postMessage);
                 document.body.removeChild(this.iframe);
-                xmlDoc = mxUtils.parseXml(msg.xml);
+                xmlDoc = this.parseXml(msg.xml);
                 encryptedModel = xmlDoc.querySelector("diagram").textContent;
                 let decryptedModel = this.decode(encryptedModel);
                 this.img.setAttribute('data-img',img);
@@ -105,7 +107,10 @@ class DrawIO{
             url: blockContent.value
         }
     }
+
+    parseXml(xml)
+	{
+		let parser = new DOMParser();
+		return parser.parseFromString(xml, 'text/xml');
+	}
 }
-
-
-
