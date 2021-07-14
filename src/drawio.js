@@ -1,16 +1,21 @@
 const pako = require('pako');
  
  class DrawIO{
-    constructor(){
+    constructor({ data, config, api, readOnly }){
+        this.api = api;
+        this.readOnly = readOnly;
         this.drawUrl =  'https://embed.diagrams.net/?embed=1&ui=min&spin=1&proto=json&configure=1';
         this.gXml = '';
         this.div = document.createElement('div');
         this.div.id = 'diagram';
-        this.div.innerHTML = require('../assets/defaultContents.svg').default;
+        this.div.innerHTML = data.svgxml||require('../assets/defaultContents.svg').default;
         this.div.addEventListener('dblclick',(evt)=>{
             this.iframe = document.createElement('iframe');
 			this.iframe.setAttribute('frameborder', '0');
             this.iframe.style.zIndex = 9999;
+            this.iframe.style.width="100%";
+            this.iframe.style.height="100%";
+            this.iframe.style.position="absolute";
             this.binded = this.postMessage.bind(this);
             window.addEventListener("message",this.binded ,false);
             this.iframe.setAttribute('src', this.drawUrl);
