@@ -1,27 +1,33 @@
 {
-  "name": "editorjs-drawio",
+  "name": "@editorjs/drawio",
   "version": "1.0.0",
-  "description": "drawio plugin for editorjs",
-  "main": "index.js",
-  "scripts": {
-    "build": ".\\node_modules\\.bin\\webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Joel-Hwang/editorjs-drawio.git"
-  },
-  "author": "",
+  "keywords": [
+    "DrawIO",
+    "tool",
+    "editor.js",
+    "editorjs"
+  ],
+  "description": "Drawio plugin for Editor.js",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Joel-Hwang/editorjs-drawio/issues"
+  "repository": "https://github.com/Joel-Hwang/editorjs-drawio.git",
+  "main": "./dist/bundle.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development --watch"
   },
-  "homepage": "https://github.com/Joel-Hwang/editorjs-drawio#readme",
+  "author": {
+    "name": "Joel Hwang",
+    "email": "joel.c.hwang@gmail.com"
+  },
   "dependencies": {
-    "pako": "^2.0.3"
-  },
-  "devDependencies": {
-    "webpack": "^5.44.0",
-    "webpack-cli": "^4.7.2"
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^1.0.0",
+    "pako": "^2.0.3",
+    "raw-loader": "^3.1.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
   }
 }
