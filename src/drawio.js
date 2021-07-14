@@ -16,6 +16,7 @@ const pako = require('pako');
             this.iframe.style.width="100%";
             this.iframe.style.height="100%";
             this.iframe.style.position="absolute";
+            this.iframe.style.top= window.scrollY + "px";
             this.binded = this.postMessage.bind(this);
             window.addEventListener("message",this.binded ,false);
             this.iframe.setAttribute('src', this.drawUrl);
