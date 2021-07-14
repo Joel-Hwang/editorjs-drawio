@@ -1,6 +1,4 @@
-import pako from 'pako';
-
-class DrawIO{
+export default class DrawIO{
     constructor(){
         this.drawUrl =  'https://embed.diagrams.net/?embed=1&ui=min&spin=1&proto=json&configure=1';
         this.gXml = '';
@@ -47,10 +45,10 @@ class DrawIO{
                 
                 break;
             case "autosave":
-                svg = atob(msg.data.substring(msg.data.indexOf(',') + 1));
+               // svg = atob(msg.data.substring(msg.data.indexOf(',') + 1));
                 this.div.innerHTML = svg;  
                 
-                xmlDoc = mxUtils.parseXml(msg.xml);
+                xmlDoc = this.parseXml(msg.xml);
                 encryptedModel = xmlDoc.querySelector("diagram").textContent;
                 this.gXml = this.decode(encryptedModel);
                 break;
